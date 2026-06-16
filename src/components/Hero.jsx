@@ -4,7 +4,20 @@ const Hero = ({ onReportClick, onBrowseClick }) => {
   return (
     <section style={heroStyle}>
       <div className="container" style={contentStyle}>
-        <img src="/images/umpsa_logo.png" alt="UMPSA Logo" style={{ height: '140px', marginBottom: '2rem', backgroundColor: 'white', padding: '12px', borderRadius: '16px' }} />
+        <img 
+          src="/images/umpsa_logo.png" 
+          alt="UMPSA Logo" 
+          style={{ 
+            height: '140px', 
+            marginBottom: '2rem', 
+            backgroundColor: 'rgba(255, 255, 255, 0.95)', 
+            padding: '16px', 
+            borderRadius: '36px 8px 36px 8px',
+            border: '1px solid rgba(255, 255, 255, 0.4)',
+            boxShadow: '0 8px 30px rgba(255, 255, 255, 0.15)',
+            backdropFilter: 'blur(8px)'
+          }} 
+        />
         <h1 style={titleStyle}>
           Centralized <br />
           <span className="text-gradient">Lost & Found</span>
