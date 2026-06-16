@@ -25,7 +25,7 @@ const Login = ({ onLogin, onClose }) => {
         <button onClick={onClose} style={closeButtonStyle}>×</button>
         <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Login</h2>
         <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>
-          Please select a role to simulate login. (Type 'fail' in password to see error)
+          {/* Please select a role to simulate login. (Type 'fail' in password to see error) */}
         </p>
 
         {error && (
