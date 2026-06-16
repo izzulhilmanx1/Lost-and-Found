@@ -48,7 +48,7 @@ const INITIAL_ITEMS = [
     brand: 'Generic',
     color: 'Black',
     location: 'FSKKP Lecture Hall 1',
-    date: thirtyOneDaysAgo.toISOString().split('T')[0], // > 30 days old
+    date: '2026-05-01', // Guaranteed > 30 days old for demo purposes
     status: 'Available',
     imageUrl: 'public/images/umbrella.jpeg'
   }
@@ -131,13 +131,12 @@ function App() {
     alert('Claim rejected. Item is available again.');
   };
 
-  const handleDisposeItem = (itemId) => {
+  const handleDisposeItem = (itemId, disposalData) => {
     setItems(items.map(item => 
       item.id === itemId 
-        ? { ...item, status: 'Disposed/Donated' } 
+        ? { ...item, status: 'Disposed/Donated', disposalData } 
         : item
     ));
-    alert('Item has been disposed/donated and removed from the public gallery.');
   };
 
   return (

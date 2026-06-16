@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 const ReportForm = ({ onClose, onReportSubmit }) => {
   const [isAnonymous, setIsAnonymous] = useState(false);
+  const [receiptData, setReceiptData] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,9 +37,56 @@ const ReportForm = ({ onClose, onReportSubmit }) => {
     };
 
     onReportSubmit(newItem);
-    alert(`Report submitted successfully! Your Reference Number is: ${refNum}. Please keep this safe.`);
-    onClose();
+    setReceiptData(newItem);
   };
+
+  if (receiptData) {
+    return (
+      <div style={overlayStyle}>
+        <div className="glass-panel" style={modalStyle}>
+          <button onClick={onClose} style={closeButtonStyle}>×</button>
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <h2 style={{ fontSize: '2.5rem', color: '#34d399', marginBottom: '0.5rem' }}>Report Submitted!</h2>
+            <p style={{ color: 'var(--text-muted)' }}>Your item has been securely logged in the system.</p>
+          </div>
+          
+          <div style={{ background: 'rgba(255,255,255,0.05)', padding: '2rem', borderRadius: '16px', marginBottom: '2rem', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <h3 style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Official Reference Number</h3>
+            <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: 'var(--accent)', letterSpacing: '2px', marginBottom: '2rem' }}>
+              {receiptData.refNumber}
+            </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', textAlign: 'left' }}>
+              <div>
+                <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', display: 'block', marginBottom: '0.25rem' }}>Item Category</span>
+                <div style={{ fontWeight: 'bold' }}>{receiptData.category}</div>
+              </div>
+              <div>
+                <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', display: 'block', marginBottom: '0.25rem' }}>Brand & Color</span>
+                <div style={{ fontWeight: 'bold' }}>{receiptData.brand} - {receiptData.color}</div>
+              </div>
+              <div>
+                <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', display: 'block', marginBottom: '0.25rem' }}>Location Found</span>
+                <div style={{ fontWeight: 'bold' }}>{receiptData.location}</div>
+              </div>
+              <div>
+                <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', display: 'block', marginBottom: '0.25rem' }}>Finder</span>
+                <div style={{ fontWeight: 'bold' }}>{receiptData.finderName}</div>
+              </div>
+            </div>
+          </div>
+
+          <div style={warningStyle}>
+            ⚠️ Please keep this Reference Number safe. Security staff may require it if further details are needed.
+          </div>
+
+          <button onClick={onClose} className="btn btn-primary" style={{ width: '100%', padding: '1rem' }}>
+            Close & View Gallery
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={overlayStyle}>
@@ -174,6 +222,16 @@ const sectionTitleStyle = {
   color: 'var(--accent)',
   borderBottom: '1px solid rgba(255,255,255,0.1)',
   paddingBottom: '0.5rem',
+};
+
+const warningStyle = {
+  background: 'rgba(239, 68, 68, 0.1)',
+  border: '1px solid rgba(239, 68, 68, 0.3)',
+  color: '#fca5a5',
+  padding: '1rem',
+  borderRadius: '8px',
+  marginBottom: '2rem',
+  fontSize: '0.9rem',
 };
 
 export default ReportForm;

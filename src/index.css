@@ -162,3 +162,9 @@ tbody tr {
 tbody tr:hover {
   background: rgba(255, 255, 255, 0.03);
 }
+
+/* Dropdown Option Styles */
+option {
+  background-color: #1a1a24;
+  color: #ffffff;
+}

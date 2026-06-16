@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const AdminDashboard = ({ items, onApproveClaim, onRejectClaim, onDisposeItem }) => {
+  const [itemToDispose, setItemToDispose] = useState(null);
+
   // Only show items that are Under Review
   const pendingClaims = items.filter(item => item.status === 'Under Review');
   
@@ -14,6 +16,20 @@ const AdminDashboard = ({ items, onApproveClaim, onRejectClaim, onDisposeItem })
     const itemDate = new Date(item.date);
     return itemDate < thirtyDaysAgo;
   });
+
+  const historicalLogs = items.filter(item => item.status === 'Disposed/Donated');
+
+  const handleDisposeSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const disposalData = {
+      method: formData.get('disposalMethod'),
+      notes: formData.get('disposalNotes'),
+      date: new Date().toISOString().split('T')[0]
+    };
+    onDisposeItem(itemToDispose.id, disposalData);
+    setItemToDispose(null);
+  };
 
   return (
     <section style={dashboardStyle} id="admin-dashboard">
@@ -101,7 +117,7 @@ const AdminDashboard = ({ items, onApproveClaim, onRejectClaim, onDisposeItem })
                       <button 
                         className="btn btn-secondary" 
                         style={{ padding: '0.3rem 0.6rem', fontSize: '0.8rem' }}
-                        onClick={() => onDisposeItem(item.id)}
+                        onClick={() => setItemToDispose(item)}
                       >
                         Confirm Disposal/Donation
                       </button>
@@ -114,7 +130,68 @@ const AdminDashboard = ({ items, onApproveClaim, onRejectClaim, onDisposeItem })
             <p style={{ color: 'var(--text-muted)' }}>No items require disposal at this time.</p>
           )}
         </div>
+
+        <div style={panelStyle}>
+          <h3 style={sectionTitleStyle}>Historical Logs (Cleaned Clutter)</h3>
+          {historicalLogs.length > 0 ? (
+            <table style={tableStyle}>
+              <thead>
+                <tr>
+                  <th>Ref #</th>
+                  <th>Item Title</th>
+                  <th>Found Date</th>
+                  <th>Disposal Date</th>
+                  <th>Method</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {historicalLogs.map(item => (
+                  <tr key={item.id}>
+                    <td>{item.refNumber}</td>
+                    <td>{item.title}</td>
+                    <td>{item.date}</td>
+                    <td>{item.disposalData?.date || 'N/A'}</td>
+                    <td><span style={{ padding: '0.2rem 0.5rem', background: 'rgba(255,255,255,0.1)', borderRadius: '4px', fontSize: '0.85rem' }}>{item.disposalData?.method || 'Archived'}</span></td>
+                    <td style={{ maxWidth: '200px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.disposalData?.notes || 'N/A'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p style={{ color: 'var(--text-muted)' }}>No historical logs available.</p>
+          )}
+        </div>
       </div>
+
+      {itemToDispose && (
+        <div style={overlayStyle}>
+          <div className="glass-panel" style={{ width: '100%', maxWidth: '500px', padding: '2.5rem', position: 'relative' }}>
+            <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>Disposal Confirmation</h2>
+            <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
+              You are about to archive <strong>{itemToDispose.title} ({itemToDispose.refNumber})</strong>. This will remove it from the public gallery.
+            </p>
+            <form onSubmit={handleDisposeSubmit}>
+              <label>Disposal Method</label>
+              <select name="disposalMethod" className="form-control" required>
+                <option value="">Select Method...</option>
+                <option value="Donated to Charity">Donated to Charity</option>
+                <option value="Discarded / Trashed">Discarded / Trashed</option>
+                <option value="Claimed by Authorities">Claimed by Authorities</option>
+                <option value="Other">Other</option>
+              </select>
+
+              <label>Administrator Notes / Recipient</label>
+              <textarea name="disposalNotes" className="form-control" rows="3" placeholder="e.g., Donated to local orphanage, discarded due to damage..." required></textarea>
+
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
+                <button type="button" className="btn btn-secondary" style={{ flex: 1 }} onClick={() => setItemToDispose(null)}>Cancel</button>
+                <button type="submit" className="btn btn-primary" style={{ flex: 1, background: '#ef4444', borderColor: '#ef4444' }}>Finalize Disposal</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
@@ -144,6 +221,21 @@ const tableStyle = {
   width: '100%',
   borderCollapse: 'collapse',
   textAlign: 'left',
+};
+
+const overlayStyle = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  backdropFilter: 'blur(5px)',
+  zIndex: 1000,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: '1rem',
 };
 
 export default AdminDashboard;
