@@ -5,7 +5,16 @@ const Header = ({ userRole, onLogout, onLoginClick, onReportClick, onBrowseClick
     <header style={headerStyle} className="glass">
       <div className="container" style={containerStyle}>
         <div style={logoStyle}>
-          <img src="/images/umpsa_logo.png" alt="UMPSA Logo" style={{ height: '60px', marginRight: '15px', backgroundColor: 'rgba(255, 255, 255, 0.95)', padding: '8px', borderRadius: '20px 4px 20px 4px', border: '1px solid rgba(255, 255, 255, 0.4)' }} />
+          <img src="/images/umpsa_logo.png" alt="UMPSA Logo" style={{ 
+              height: '60px', 
+              marginRight: '15px', 
+              background: 'linear-gradient(145deg, rgba(255,255,255,0.95), rgba(230,230,240,0.85))', 
+              padding: '8px', 
+              borderRadius: '20px 4px 20px 4px',
+              border: '1px solid rgba(255,255,255,0.8)',
+              boxShadow: '0 0 20px rgba(255, 255, 255, 0.3), inset 2px 2px 4px rgba(255, 255, 255, 1), inset -2px -2px 6px rgba(0, 0, 0, 0.1)',
+              backdropFilter: 'blur(8px)' 
+            }} />
           <span className="text-gradient" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
             Campus Hub
           </span>

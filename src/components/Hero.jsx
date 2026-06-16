@@ -10,11 +10,11 @@ const Hero = ({ onReportClick, onBrowseClick }) => {
           style={{ 
             height: '140px', 
             marginBottom: '2rem', 
-            backgroundColor: 'rgba(255, 255, 255, 0.95)', 
+            background: 'linear-gradient(145deg, rgba(255,255,255,0.95), rgba(230,230,240,0.85))', 
             padding: '16px', 
             borderRadius: '36px 8px 36px 8px',
-            border: '1px solid rgba(255, 255, 255, 0.4)',
-            boxShadow: '0 8px 30px rgba(255, 255, 255, 0.15)',
+            border: '1px solid rgba(255,255,255,0.8)',
+            boxShadow: '0 0 40px rgba(255, 255, 255, 0.25), inset 3px 3px 8px rgba(255, 255, 255, 1), inset -3px -3px 10px rgba(0, 0, 0, 0.1)',
             backdropFilter: 'blur(8px)'
           }} 
         />
