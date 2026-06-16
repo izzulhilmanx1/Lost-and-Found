@@ -39,7 +39,14 @@ const AdminDashboard = ({ items, onApproveClaim, onRejectClaim, onDisposeItem })
                     <td>{item.refNumber}</td>
                     <td>{item.title}</td>
                     <td>{item.claimData?.matricCard || 'N/A'}</td>
-                    <td>{item.claimData?.proofDescription || 'N/A'}</td>
+                    <td>
+                      <div>{item.claimData?.proofDescription || 'N/A'}</div>
+                      {item.claimData?.supportingDocUrl && (
+                        <a href={item.claimData.supportingDocUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', fontSize: '0.8rem', display: 'block', marginTop: '0.5rem' }}>
+                          View Supporting Doc
+                        </a>
+                      )}
+                    </td>
                     <td>
                       <div style={{ display: 'flex', gap: '0.5rem' }}>
                         <button 

@@ -4,11 +4,17 @@ const ClaimModal = ({ item, onClose, onSubmitClaim }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
+    const file = formData.get('supportingDoc');
+    let docUrl = null;
+    if (file && file.size > 0) {
+      docUrl = URL.createObjectURL(file);
+    }
     
     // Simulate submission
     onSubmitClaim(item.id, {
       matricCard: formData.get('matricCard'),
-      proofDescription: formData.get('proofDescription')
+      proofDescription: formData.get('proofDescription'),
+      supportingDocUrl: docUrl
     });
     
     alert('Claim request submitted successfully! Security Staff will review it shortly.');
@@ -42,7 +48,7 @@ const ClaimModal = ({ item, onClose, onSubmitClaim }) => {
           </textarea>
 
           <label>Upload Supporting Documents (Optional)</label>
-          <input type="file" className="form-control" style={{ paddingTop: '0.6rem' }} />
+          <input type="file" name="supportingDoc" className="form-control" style={{ paddingTop: '0.6rem' }} />
 
           <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
             <button type="button" className="btn btn-secondary" style={{ flex: 1 }} onClick={onClose}>
