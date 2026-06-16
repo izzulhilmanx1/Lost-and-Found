@@ -6,7 +6,7 @@ const Hero = ({ onReportClick, onBrowseClick }) => {
       <div className="container" style={contentStyle}>
         <img src="/images/umpsa_logo.png" alt="UMPSA Logo" style={{ height: '80px', marginBottom: '1.5rem' }} />
         <h1 style={titleStyle}>
-          Centralized <br />
+          Centralized Farris <br />
           <span className="text-gradient">Lost & Found</span>
         </h1>
         <p style={subtitleStyle}>
