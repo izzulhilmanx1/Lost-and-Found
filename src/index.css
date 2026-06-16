@@ -140,3 +140,25 @@ label {
   font-weight: 500;
   color: var(--text-muted);
 }
+
+/* Table Styles */
+th, td {
+  padding: 1.2rem 1rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+th {
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+tbody tr {
+  transition: background 0.2s ease;
+}
+
+tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}

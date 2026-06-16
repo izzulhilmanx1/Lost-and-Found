@@ -37,7 +37,7 @@ const INITIAL_ITEMS = [
     date: '2026-06-15',
     status: 'Under Review',
     claimData: { matricCard: 'CB25017', proofDescription: 'It has my matrix card inside and a family photo.' },
-    imageUrl: '/images/lost_wallet.png'
+    imageUrl: 'public/images/lost_wallet_1781601686255.png'
   },
   {
     id: 3,
@@ -50,7 +50,7 @@ const INITIAL_ITEMS = [
     location: 'FSKKP Lecture Hall 1',
     date: thirtyOneDaysAgo.toISOString().split('T')[0], // > 30 days old
     status: 'Available',
-    imageUrl: 'https://images.unsplash.com/photo-1551098654-9721ad015371?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60'
+    imageUrl: 'public/images/umbrella.jpeg'
   }
 ];
 
