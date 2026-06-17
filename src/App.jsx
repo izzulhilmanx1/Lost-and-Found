@@ -64,6 +64,7 @@ const INITIAL_ITEMS = [
     color: 'Merah menyala',
     location: 'PAP',
     date: '1990-03-02', 
+    status: 'Available',
     imageUrl: 'public/images/ayammcd.jpg'
   }
 ];

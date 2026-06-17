@@ -13,7 +13,7 @@ const ItemCard = ({ item, userRole, onClaimClick }) => {
       <div style={imageContainerStyle}>
         <img src={item.imageUrl} alt={item.title} style={imageStyle} />
         <span style={{...badgeStyle, backgroundColor: statusColor}}>
-          {item.status.toUpperCase()}
+          {(item.status || 'Available').toUpperCase()}
         </span>
       </div>
       <div style={contentStyle}>
