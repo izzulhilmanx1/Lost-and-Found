@@ -51,6 +51,20 @@ const INITIAL_ITEMS = [
     date: '2026-05-01', // Guaranteed > 30 days old for demo purposes
     status: 'Available',
     imageUrl: 'public/images/umbrella.jpeg'
+  },
+
+    {
+      //test123
+    id: 4,
+    refNumber: 'LF-2026-test123',
+    title: 'BarangWafiy',
+    category: 'Other',
+    description: 'Selalu hilang ni izzul curi',
+    brand: 'Ayam Mas',
+    color: 'Merah menyala',
+    location: 'PAP',
+    date: '1990-03-02', 
+    imageUrl: 'public/images/ayammcd.jpg'
   }
 ];
 
