@@ -17,7 +17,8 @@ const AdminDashboard = ({ items, onApproveClaim, onRejectClaim, onDisposeItem })
     return itemDate < thirtyDaysAgo;
   });
 
-  const historicalLogs = items.filter(item => item.status === 'Disposed/Donated');
+  // Combine Disposed and Handed Over items for the complete historical report
+  const historicalLogs = items.filter(item => item.status === 'Disposed/Donated' || item.status === 'Handed Over');
 
   const handleDisposeSubmit = (e) => {
     e.preventDefault();
@@ -55,7 +56,7 @@ const AdminDashboard = ({ items, onApproveClaim, onRejectClaim, onDisposeItem })
                   <tr key={item.id}>
                     <td>{item.refNumber}</td>
                     <td>{item.title}</td>
-                    <td>{item.claimData?.matricCard || 'N/A'}</td>
+                    <td style={{ textTransform: 'uppercase', fontWeight: 'bold', color: 'var(--accent)' }}>{item.claimData?.matricCard || 'N/A'}</td>
                     <td>{item.claimData?.proofDescription || 'N/A'}</td>
                     <td>
                       {item.claimData?.supportingDocUrl ? (
@@ -132,7 +133,10 @@ const AdminDashboard = ({ items, onApproveClaim, onRejectClaim, onDisposeItem })
         </div>
 
         <div style={panelStyle}>
-          <h3 style={sectionTitleStyle}>Historical Logs (Cleaned Clutter)</h3>
+          <h3 style={sectionTitleStyle}>Historical Inventory Status Report</h3>
+          <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
+            Comprehensive log of all items that are no longer in the active inventory (Claimed by owner or Archived/Disposed).
+          </p>
           {historicalLogs.length > 0 ? (
             <table style={tableStyle}>
               <thead>
@@ -140,22 +144,37 @@ const AdminDashboard = ({ items, onApproveClaim, onRejectClaim, onDisposeItem })
                   <th>Ref #</th>
                   <th>Item Title</th>
                   <th>Found Date</th>
-                  <th>Disposal Date</th>
-                  <th>Method</th>
-                  <th>Notes</th>
+                  <th>Exit Date</th>
+                  <th>Resolution Method</th>
+                  <th>Admin Notes / Matrix ID</th>
                 </tr>
               </thead>
               <tbody>
-                {historicalLogs.map(item => (
-                  <tr key={item.id}>
-                    <td>{item.refNumber}</td>
-                    <td>{item.title}</td>
-                    <td>{item.date}</td>
-                    <td>{item.disposalData?.date || 'N/A'}</td>
-                    <td><span style={{ padding: '0.2rem 0.5rem', background: 'rgba(255,255,255,0.1)', borderRadius: '4px', fontSize: '0.85rem' }}>{item.disposalData?.method || 'Archived'}</span></td>
-                    <td style={{ maxWidth: '200px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.disposalData?.notes || 'N/A'}</td>
-                  </tr>
-                ))}
+                {historicalLogs.map(item => {
+                  const isClaimed = item.status === 'Handed Over';
+                  const exitDate = isClaimed ? (item.claimData?.approvalDate || new Date().toISOString().split('T')[0]) : (item.disposalData?.date || 'N/A');
+                  const methodText = isClaimed ? 'Claimed by Owner' : (item.disposalData?.method || 'Archived');
+                  const notesText = isClaimed ? `Verified to Claimant ID: ${item.claimData?.matricCard?.toUpperCase() || 'N/A'}` : (item.disposalData?.notes || 'N/A');
+                  const methodColor = isClaimed ? 'rgba(16, 185, 129, 0.2)' : 'rgba(255,255,255,0.1)';
+                  const textColor = isClaimed ? '#10b981' : 'white';
+
+                  return (
+                    <tr key={item.id}>
+                      <td>{item.refNumber}</td>
+                      <td>{item.title}</td>
+                      <td>{item.date}</td>
+                      <td>{exitDate}</td>
+                      <td>
+                        <span style={{ padding: '0.2rem 0.5rem', background: methodColor, color: textColor, borderRadius: '4px', fontSize: '0.85rem', fontWeight: isClaimed ? 'bold' : 'normal' }}>
+                          {methodText}
+                        </span>
+                      </td>
+                      <td style={{ maxWidth: '300px', whiteSpace: 'pre-wrap', wordWrap: 'break-word', color: isClaimed ? 'var(--text-main)' : 'var(--text-muted)' }}>
+                        {notesText}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           ) : (
